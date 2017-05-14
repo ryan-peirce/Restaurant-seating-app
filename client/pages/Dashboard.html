@@ -1,3 +1,6 @@
-<template name="Dashboard">
-    <h1 class="page-title">Dashboard</h1>
+<template name="dashboard" >
+    {{> AppNav}}
+    <div style="margin-left:90px;">
+        <h1 class="page-title">Dashboard - {{#if isInRole 'owner'}} Owner {{/if}} {{#if isInRole 'patron'}} Patron {{/if}} {{#if isInRole 'employee'}} Employee {{/if}}</h1>
+    </div>
 </template>

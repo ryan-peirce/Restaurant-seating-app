@@ -5,7 +5,7 @@
 
 <template name="main">
   <header class="header">
-    <h1 style="margin:0px;"><a href="/">Cse 480</a></h1>
+    <h1 style="margin:0px;"><a href="/"><i class="fa fa-circle" aria-hidden="true"></i></a></h1>
     {{> navigation}}
   </header>
 
@@ -37,19 +37,23 @@
 
 
 
+
 <template name="navigation">
   <nav class="main-nav">
     <ul>
       <li><a href="/">Home</a></li>
-      <li><a href="/dashboard">Dashboard</a></li>
+
       {{#if currentUser}}
-        <li class="logout">Logout</li>
+      <li><a href="/dashboard">Dashboard</a></li>
+        <li class="logout" style="cursor: pointer;">Logout</li>
       {{else}}
       <li class="login-toggle">Login/Register</li>
       {{/if}}
     </ul>
   </nav>
 </template>
+
+
 
 <template name="home">
   <div class="container">
