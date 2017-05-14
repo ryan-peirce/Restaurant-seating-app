@@ -54,9 +54,57 @@ Template.home.events({
     },
 });
 
+Template.LoginModal.events({
+    'click .close-login': () => {
+        Session.set('nav-toggle','');
+    }
+});
 
+Template.navigation.events({
+    'click .login-toggle': ()=> {
+        Session.set('nav-toggle','open');
+    },
+    'click .logout': ()=> {
+    Meteor.logout();
+}
+});
 
 Router.route('/', {
     name: 'home',
     template: 'home'
 });
+
+
+Template['override-atPwdFormBtn'].replaces('atPwdFormBtn');
+
+
+AccountsTemplates.addFields([
+    {
+        _id: 'firstName',
+        type: 'text',
+        displayName: 'First Name',
+        required: true,
+    },
+    {
+        _id: 'lastName',
+        type: 'text',
+        displayName: 'Lase Name',
+        required: true,
+    },
+    {
+        _id: "gender",
+        type: "select",
+        displayName: "Gender",
+        required: true,
+        select: [
+            {
+                text: "Male",
+                value: "male",
+            },
+            {
+                text: "Female",
+                value: "female",
+            },
+        ],
+    }
+]);
