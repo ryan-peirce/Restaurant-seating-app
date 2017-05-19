@@ -5,8 +5,8 @@ import { Meteor } from 'meteor/meteor';
 import { ReactiveDict } from 'meteor/reactive-dict';
 
 import './main.html';
-Todos = new Mongo.Collection('todos');
 
+Rests = new Mongo.Collection('rests');
 Router.configure({
     layoutTemplate: 'main'
 });
@@ -114,7 +114,8 @@ AccountsTemplates.configure({
 
 
 AccountsTemplates.addFields([
-    {
+    
+	{
         _id: 'firstName',
         type: 'text',
         displayName: 'First Name',

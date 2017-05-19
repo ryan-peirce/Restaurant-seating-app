@@ -1,0 +1,29 @@
+<template name="ownerDash">
+	<h1 class="page-title">Dashboard - Owner:</h1>
+	<h3>Welcome {{first}} {{last}}</h3>
+	<br>
+	<br>
+	<ul>
+      {{#each rests}}
+        {{> rest}}
+      {{/each}}
+    </ul>
+	{{> addRests}}
+	
+</template>
+
+
+
+<template name="addRests">
+	add a new resturant: <br>
+	<form>
+		Name:<input type="text" name="restName"><br>
+		Location:<input type="text" name="restLoc"><br>
+		<input type="submit" value="Add new resturant">
+	</form>
+</template>
+
+
+<template name="rest">
+  <li>{{name}}, {{location}}</li>
+</template>
