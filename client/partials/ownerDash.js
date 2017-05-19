@@ -14,7 +14,7 @@ Template.addRests.events({
 Template.ownerDash.helpers({
   rests() {
     // Show newest tasks at the top
-    return Rests.find({}, { sort: { createdAt: -1 } });
+    return Rests.find({owner_id: Meteor.userId()}, { sort: { createdAt: -1 } });
   },
   first: function(){
        return Meteor.user().profile.firstName;
