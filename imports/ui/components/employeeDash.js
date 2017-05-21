@@ -1,15 +1,8 @@
-import '/imports/ui/components/patronDash.html';
+import '/imports/ui/components/employeeDash.html';
 
-Session.set('search','');
-Template.patronDash.helpers({
+Template.employeeDash.helpers({
   rests() {
-    // Show newest tasks at the top
-	if(Session.get('search').localeCompare('')==0){
-		return Rests.find({}, { sort: { createdAt: -1 } });
-	}
-	else{
-		return Rests.find({location:Session.get('search')}, { sort: { createdAt: -1 } });
-	}
+		return Meteor.user().profile.worksAt;
   },
   first: function(){
        return Meteor.user().profile.firstName;
@@ -19,16 +12,7 @@ Template.patronDash.helpers({
    }
 });
 
-Template.patronDash.events({
-    'submit form': function(event){
-		event.preventDefault();
-
-		Session.set('search',event.target.searchArea.value);
-
-    },
-});
-
-Template.rest2.events({
+Template.rest3.events({
     'click .accordion': function(event){
 		Session.set('current-id',this._id);
 		event.preventDefault();

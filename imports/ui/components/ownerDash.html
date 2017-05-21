@@ -31,7 +31,7 @@
 
 <template name="employee">
 	<li class="employee-list">
-	{{position}} <button style="float:right;" id="remove-employee">Remove Employee</button>
+	{{first}} {{last}} {{position}} {{email}} <button style="float:right;" id="remove-employee">Remove Employee</button>
 	</li>
 </template>
 
@@ -47,7 +47,11 @@
 		{{/each}}
 		</ul>
 		</div>
-		<button>Add Employee</button>
+		<form>
+			Employee Email:<input type="text" name="empEmail">First Name:<input type="text" name="empFirst"><br>
+			Last Name:<input type="text" name="empLast">Position:<input type="text" name="empPos">
+		<input class="btn " type="submit" value="Add Employee">
+		</form>
 	</div>
 </template>
 

@@ -1,6 +1,6 @@
 <template name="dashboard" >
-    
+
     <div style="margin-left:0px;">
-        <div class="page-title"> {{#if isInRole 'owner'}} {{> ownerDash}} {{/if}} {{#if isInRole 'patron'}} {{> patronDash}} {{/if}} {{#if isInRole 'employee'}} Employee {{/if}}</div>
+        <div class="page-title"> {{#if isInRole 'owner'}} {{> ownerDash}} {{/if}} {{#if isInRole 'patron'}} {{> patronDash}} {{/if}} {{#if isInRole 'employee'}} {{> employeeDash}} {{/if}}</div>
     </div>
 </template>

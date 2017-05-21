@@ -1,0 +1,29 @@
+<template name="employeeDash">
+  <div class="container">
+  	<h1 class="page-title">Dashboard - Employee:</h1>
+  	<h3>Welcome {{first}} {{last}}</h3>
+  	<br>
+  	<br>
+    Resturants that you work at:
+  	<div style="height: 500px; overflow:auto; border: 1px solid black">
+  		<ul style="padding:0px;">
+  		  {{#each rests}}
+  			   {{> rest3}}
+  		  {{/each}}
+  		</ul>
+  	</div>
+  </div>
+</template>
+
+
+<template name="rest3">
+	<li class="rest-list">
+		<button class="accordion">
+			{{restName}}, {{position}}: <span style="float:right">Current wait time ~x mins</span>
+		</button>
+		<div class="panel">
+			<button class="rest-option" name="employees">Go to worker view</button>
+			<button class="rest-option" name="remove">Remove</button>
+		</div>
+	</li>
+</template>

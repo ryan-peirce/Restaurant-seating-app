@@ -17,6 +17,10 @@ Meteor.methods({
 				Rests.update(restId, {$set: { location: val },});
 				break;
 		}
-		
-	}
+
+	},
+	'updateWorksAt'(email,restId,rest,pos){
+		var id = Meteor.users.findOne({'emails.address':email})._id
+		Meteor.users.update(id, {$push: {'profile.worksAt': {restId:restId, restName:rest, position: pos} }});
+}
 });
