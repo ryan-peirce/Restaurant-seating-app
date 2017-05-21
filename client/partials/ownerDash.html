@@ -1,17 +1,74 @@
 <template name="ownerDash">
+{{> dashModal}}
+<div class="container">
 	<h1 class="page-title">Dashboard - Owner:</h1>
-	<h3>Welcome {{first}} {{last}}</h3>
+	<h3>Welcome {{first}} {{last}}, click on a resturant to add employees and change settings.</h3>
 	<br>
 	<br>
-	<ul>
-      {{#each rests}}
-        {{> rest}}
-      {{/each}}
-    </ul>
+	<div style="height: 500px; overflow:auto; border: 1px solid black">
+		<ul style="padding:0px;">
+		  {{#each rests}}
+			{{> rest}}
+		  {{/each}}
+		</ul>
+	</div>
 	{{> addRests}}
-	
+</div>
 </template>
 
+
+<template name="dashModal">
+  <div class="dash-modal">
+    <i class="fa fa-close close-dash"></i>
+	<br>
+	{{> employees}}
+	{{> editRest}}
+	{{> removeRest}}
+
+  </div>
+</template>
+
+
+<template name="employee">
+	<li class="employee-list">
+	{{position}} <button style="float:right;" id="remove-employee">Remove Employee</button>
+	</li>
+</template>
+
+
+
+<template name="employees">
+	<div id="employees" class="hidden dashModalOptions">
+		employees:
+		<div style="height: 400px;overflow:auto; border: 1px solid black">
+		<ul style="padding:0px;">
+		{{#each employees1}}
+			{{> employee}}
+		{{/each}}
+		</ul>
+		</div>
+		<button>Add Employee</button>
+	</div>
+</template>
+
+<template name="editRest">
+	<div id="edit" class="hidden dashModalOptions">
+		Resturant: {{name}}, {{location}}
+		<br><br>
+			Edit name:<form class="new-rest-name"><input type="text" name="restName"><input type="submit" value="Submit new name"></form><br>
+			Edit location:<form class="new-rest-loc"><input type="text" name="restLoc"><input type="submit" value="Submit new location"></form><br>
+			
+			
+			
+	</div>
+</template>
+
+<template name="removeRest">
+	<div id="remove" class="hidden dashModalOptions">
+		<p>Are you sure you wish to remove this resturant? All of its associated data will be deleted with it.</p>
+		<button class="remove-rest">Yes, Remove this resturant</button>		
+	</div>
+</template>
 
 
 <template name="addRests">
@@ -25,5 +82,15 @@
 
 
 <template name="rest">
-  <li>{{name}}, {{location}}</li>
+	<li class="rest-list">
+		<button class="accordion">
+			{{name}}, {{location}}
+		</button>
+		<div class="panel">
+			<button class="rest-option" name="employees">Add / Remove Employees</button>
+			<button class="rest-option" name="edit">Edit Information</button>
+			<button class="rest-option" name="remove">Remove Resturant</button>
+		</div>
+	</li>
 </template>
+

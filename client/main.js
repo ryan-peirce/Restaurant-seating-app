@@ -7,6 +7,9 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 import './main.html';
 
 Rests = new Mongo.Collection('rests');
+Employees = new Mongo.Collection('employees');
+WorksAt = new Mongo.Collection('worksAt');
+
 Router.configure({
     layoutTemplate: 'main'
 });
@@ -16,18 +19,33 @@ Template.home.onCreated(function bodyOnCreated() {
     this.state = new ReactiveDict();
 });
 
-Template.home.helpers({
-    tasks() {
-        const instance = Template.instance();
-        if (instance.state.get('hideCompleted')) {
-            // If hide completed is checked, filter tasks
-            return Tasks.find({ checked: { $ne: true } }, { sort: { createdAt: -1 } });
-        }
-        // Otherwise, return all of the tasks
-        return Tasks.find({});
-    },
+Session.set('search','');
+Template.patronDash.helpers({
+  rests() {
+    // Show newest tasks at the top
+	if(Session.get('search').localeCompare('')==0){
+		return Rests.find({}, { sort: { createdAt: -1 } });
+	}
+	else{
+		return Rests.find({location:Session.get('search')}, { sort: { createdAt: -1 } });
+	}
+  },
+  first: function(){
+       return Meteor.user().profile.firstName;
+   },
+   last: function(){
+       return Meteor.user().profile.lastName;
+   }
 });
 
+Template.patronDash.events({
+    'submit form': function(event){
+		event.preventDefault();
+		
+		Session.set('search',event.target.searchArea.value);
+  
+    },
+});
 
 Template.home.events({
     'submit .new-task'(event) {
