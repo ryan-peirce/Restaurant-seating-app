@@ -1,3 +1,5 @@
+import '/imports/ui/components/ownerDash.html';
+
 Template.addRests.events({
     'submit form': function(event){
         event.preventDefault();
@@ -5,7 +7,7 @@ Template.addRests.events({
 		var restLoc = event.target.restLoc.value;
 		var owner = Meteor.user().profile.firstName;
 		var ownerId = Meteor.userId();
-		
+
 		Rests.insert({ name: restName, location: restLoc, owner: owner, owner_id:  ownerId});
 		event.target.restName.value = '';
 		event.target.restLoc.value = '';
@@ -39,7 +41,7 @@ Template.rest.events({
 		  panel.style.maxHeight = null;
 		} else {
 		  panel.style.maxHeight = panel.scrollHeight + "px";
-		} 
+		}
     },
 	'click .rest-option': function(event){
 		event.preventDefault();
@@ -99,4 +101,3 @@ Template.editRest.events({
 		event.target.restLoc.value = '';
     },
 });
-

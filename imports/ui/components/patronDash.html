@@ -1,10 +1,10 @@
 <template name="patronDash">
 <div class="container">
 	<h1 class="page-title">Dashboard - Patron:</h1>
-	<h3>Welcome {{first}} {{last}}, click on a resturant to add employees and change settings.</h3>
+	<h3>Welcome {{first}} {{last}}</h3>
 	<br>
 	<br>
-	Show me resturants in: <form><input type="text" name="searchArea"><input type="submit" value="Search"></form>
+	Show me resturants in: <form><input type="text" name="searchArea"><input class="btn btn-primary" type="submit" value="Search"></form>
 	<div style="height: 500px; overflow:auto; border: 1px solid black">
 		<ul style="padding:0px;">
 		  {{#each rests}}

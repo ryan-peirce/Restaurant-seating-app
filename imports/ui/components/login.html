@@ -1,0 +1,15 @@
+<template name="LoginModal">
+  {{#if $not currentUser}}
+  <div class="login-modal {{$.Session.get 'nav-toggle'}}">
+    <i class="fa fa-close close-login"></i>
+      {{> atForm}}
+
+  </div>
+  {{/if}}
+</template>
+
+<template name="override-atPwdFormBtn">
+  <button type="submit" class="at-btn submit {{submitDisabled}} btn-primary" id="at-btn">
+    {{buttonText}}
+  </button>
+</template>

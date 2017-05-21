@@ -55,18 +55,18 @@
 	<div id="edit" class="hidden dashModalOptions">
 		Resturant: {{name}}, {{location}}
 		<br><br>
-			Edit name:<form class="new-rest-name"><input type="text" name="restName"><input type="submit" value="Submit new name"></form><br>
-			Edit location:<form class="new-rest-loc"><input type="text" name="restLoc"><input type="submit" value="Submit new location"></form><br>
-			
-			
-			
+			Edit name:<form class="new-rest-name"><input type="text" name="restName"><input class="btn " type="submit" value="Submit new name"></form><br>
+			Edit location:<form class="new-rest-loc"><input type="text" name="restLoc"><input  class="btn " type="submit" value="Submit new location"></form><br>
+
+
+
 	</div>
 </template>
 
 <template name="removeRest">
 	<div id="remove" class="hidden dashModalOptions">
 		<p>Are you sure you wish to remove this resturant? All of its associated data will be deleted with it.</p>
-		<button class="remove-rest">Yes, Remove this resturant</button>		
+		<button class="remove-rest">Yes, Remove this resturant</button>
 	</div>
 </template>
 
@@ -76,7 +76,7 @@
 	<form>
 		Name:<input type="text" name="restName"><br>
 		Location:<input type="text" name="restLoc"><br>
-		<input type="submit" value="Add new resturant">
+		<input class="btn btn-primary" type="submit" value="Add new resturant">
 	</form>
 </template>
 
@@ -93,4 +93,3 @@
 		</div>
 	</li>
 </template>
-
