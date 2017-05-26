@@ -8,7 +8,17 @@ Template.addRests.events({
 		var owner = Meteor.user().profile.firstName;
 		var ownerId = Meteor.userId();
 
-		Rests.insert({ name: restName, location: restLoc, owner: owner, owner_id:  ownerId});
+		Rests.insert({ name: restName,
+                    location: restLoc,
+                    owner: owner,
+                    owner_id:  ownerId,
+                    kitchen_output: 10,
+                    waits:{one: 0, two: 0, three: 0, four: 0, five: 0, sixUp: 0},
+                    tables: [  ],
+                    que: [],
+                    reservations: []
+
+                  });
 		event.target.restName.value = '';
 		event.target.restLoc.value = '';
     }
@@ -101,21 +111,52 @@ Template.editRest.helpers({
   ,
   location(){
 	return Rests.findOne({_id: Session.get('current-id')}).location;
+  },
+  tables(){
+    return Rests.findOne({_id: Session.get('current-id')}).tables;
+  },
+  kitchenOutput(){
+    return Rests.findOne({_id: Session.get('current-id')}).kitchen_output;
   }
+
 });
 
+Template.table.events({
+    'click .remove-table': function(event){
+		    event.preventDefault();
+        var name = this;
+
+        Rests.update({_id: Session.get('current-id')}, {$pull : {tables : name}});
+        //Meteor.call('rests.update',Session.get('current-id'),'name',name);
+		    //event.target.restName.value = '';
+    },
+});
 
 Template.editRest.events({
     'submit .new-rest-name': function(event){
-		event.preventDefault();
-        var name = event.target.restName.value;
-		Meteor.call('rests.update',Session.get('current-id'),'name',name);
-		event.target.restName.value = '';
+		  event.preventDefault();
+      var name = event.target.restName.value;
+		  Meteor.call('rests.update',Session.get('current-id'),'name',name);
+		  event.target.restName.value = '';
     },
-	'submit .new-rest-loc': function(event){
-		event.preventDefault();
-        var name = event.target.restLoc.value;
-		Meteor.call('rests.update',Session.get('current-id'),'location',name);
-		event.target.restLoc.value = '';
+	  'submit .new-rest-loc': function(event){
+  		event.preventDefault();
+      var name = event.target.restLoc.value;
+  		Meteor.call('rests.update',Session.get('current-id'),'location',name);
+  		event.target.restLoc.value = '';
+    },
+    'submit .add-table': function(event){
+  		event.preventDefault();
+      var name = event.target.tableName.value;
+      var seats = event.target.seatNum.value;
+  		Meteor.call('rests.addTable', Session.get('current-id'), name, seats);
+  		event.target.tableName.value = '';
+      event.target.seatNum.value = '';
+    },
+    'submit .kitchen-output': function(event){
+  		event.preventDefault();
+      var output = event.target.kitchenOutput.value;
+      event.target.kitchenOutput.value = '';
+  		Meteor.call('rests.update', Session.get('current-id'), "kitchen_output" ,output);
     },
 });
