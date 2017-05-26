@@ -1,0 +1,125 @@
+<template name="ownerDash">
+{{> dashModal}}
+<div class="container">
+	<h1 class="page-title">Dashboard - Owner:</h1>
+	<h3>Welcome {{first}} {{last}}, click on a resturant to add employees and change settings.</h3>
+	<br>
+	<br>
+	<div style="height: 500px; overflow:auto; border: 1px solid black">
+		<ul style="padding:0px;">
+		  {{#each rests}}
+			{{> rest}}
+		  {{/each}}
+		</ul>
+	</div>
+	{{> addRests}}
+</div>
+</template>
+
+
+<template name="dashModal">
+  <div class="dash-modal">
+    <i class="fa fa-close close-dash"></i>
+	<br>
+	{{> employees}}
+	{{> editRest}}
+	{{> removeRest}}
+
+  </div>
+</template>
+
+
+<template name="employee">
+	<li class="employee-list">
+	{{first}} {{last}} {{position}} {{email}} <button style="float:right;" id="remove-employee">Remove Employee</button>
+	</li>
+</template>
+
+
+
+<template name="employees">
+	<div id="employees" class="hidden dashModalOptions">
+		employees:
+		<div style="height: 400px;overflow:auto; border: 1px solid black">
+		<ul style="padding:0px;">
+		{{#each employees1}}
+			{{> employee}}
+		{{/each}}
+		</ul>
+		</div>
+		<form>
+			Employee Email:<input type="text" name="empEmail">First Name:<input type="text" name="empFirst"><br>
+			Last Name:<input type="text" name="empLast">Position:<input type="text" name="empPos">
+		<input class="btn " type="submit" value="Add Employee">
+		</form>
+	</div>
+</template>
+
+<template name="editRest">
+	<div id="edit" class="hidden dashModalOptions">
+		Resturant: {{name}}, {{location}}
+		<div class="row">
+			<div class="col-lg-6">
+				Edit name:<form class="new-rest-name"><input type="text" name="restName"><input class="btn " type="submit" value="Submit new name"></form><br>
+				Edit location:<form class="new-rest-loc"><input type="text" name="restLoc"><input  class="btn " type="submit" value="Submit new location"></form>
+			</div>
+			<div class="col-lg-6">
+				Kitchen output: {{kitchenOutput}}<br>
+				Define kitchen output:<form class="kitchen-output"><input type="text" name="kitchenOutput"><input class="btn " type="submit" value="Submit"></form><br>
+				The kitchen output is a number 1-10 rating the output potential of your kitchen facility and staff. A 10 means that at full capacity your kitchen does not get backed up.
+				A 5 means that it backs up at half capacity, and so on.
+			</div>
+		</div>
+			Tables:<br>
+			<div style="height: 200px; overflow:auto; border: 1px solid black">
+				<ul style="padding:0px;">
+					{{#each tables}}
+						{{> table}}
+					{{/each}}
+				</ul>
+			</div><br>
+			Add table: <form class="add-table">
+			Table name / number: <input type="text" name="tableName">
+			Number of seats: <input type="text" name="seatNum">
+			<input  class="btn " type="submit" value="Add Table"></form><br>
+
+	</div>
+</template>
+
+<template name="table">
+	<li class="employee-list">
+		{{this.name}}: {{seats}} seats <input  class="btn remove-table" type="button" value="Remove Table" style="float:right;"><br>
+	</li>
+</template>
+
+
+<template name="removeRest">
+	<div id="remove" class="hidden dashModalOptions">
+		<p>Are you sure you wish to remove this resturant? All of its associated data will be deleted with it.</p>
+		<button class="remove-rest">Yes, Remove this resturant</button>
+	</div>
+</template>
+
+
+<template name="addRests">
+	add a new resturant: <br>
+	<form>
+		Name:<input type="text" name="restName"><br>
+		Location:<input type="text" name="restLoc"><br>
+		<input class="btn btn-primary" type="submit" value="Add new resturant">
+	</form>
+</template>
+
+
+<template name="rest">
+	<li class="rest-list">
+		<button class="accordion">
+			{{name}}, {{location}}
+		</button>
+		<div class="panel">
+			<button class="rest-option" name="employees">Add / Remove Employees</button>
+			<button class="rest-option" name="edit">Edit Information</button>
+			<button class="rest-option" name="remove">Remove Resturant</button>
+		</div>
+	</li>
+</template>

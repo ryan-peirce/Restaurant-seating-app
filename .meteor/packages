@@ -40,3 +40,5 @@ useraccounts:core
 session
 raix:handlebar-helpers
 aldeed:template-extension
+jquery
+check
