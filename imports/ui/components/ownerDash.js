@@ -80,6 +80,14 @@ Template.employees.events({
     }
 });
 
+Template.employee.events({
+  'click .remove-employee': function(event){
+    event.preventDefault();
+    //alert(JSON.stringify(this))
+    Meteor.call('rests.remove-employee', Session.get("current-id"),this);
+    }
+});
+
 
 Template.ownerDash.helpers({
   rests() {

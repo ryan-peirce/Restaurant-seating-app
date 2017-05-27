@@ -14,7 +14,7 @@ Template.employeeDash.helpers({
 
 Template.rest3.events({
     'click .accordion': function(event){
-		Session.set('current-id',this._id);
+		Session.set('current-id',this.restId);
 		event.preventDefault();
     $(".panel").css("maxHeight", "0px");
     $(".accordion").toggleClass('active',false);
@@ -26,10 +26,12 @@ Template.rest3.events({
       panel.style.maxHeight = panel.scrollHeight + "px";
     }
     },
-	'click .rest-option': function(event){
+	'click .go-to-app': function(event){
 		event.preventDefault();
-		$(".dashModalOptions").toggleClass('hidden',true);
-		$("#"+event.target.name+"").toggleClass('hidden');
-        $(".dash-modal").toggleClass('open');
+    Router.go('/app');
+  },
+  'click .remove': function(event){
+		event.preventDefault();
+    Meteor.call('worksAt.remove', Meteor.userId(), this);
     }
 });
