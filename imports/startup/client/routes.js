@@ -18,5 +18,5 @@ Router.route('/dashboard', {
 
 Router.route('/app', {
     name: 'app',
-    template: 'app'
+    template: 'app',
 });

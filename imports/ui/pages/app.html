@@ -1,5 +1,51 @@
 <template name="app">
   <div class="container">
-    {{rest}}
+    {{#each rest}}
+      <h2>Application Page: {{name}}, {{location}} </h2>
+    {{/each}}
+    <div class="row">
+      <div class="col-lg-6">
+        <h4>Tables:</h4>
+        <div style="border: 1px solid black; width: 100%; max-height: 800px;">
+          {{> tables}}
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <h4>Waiting List:</h4>
+        <div style="border: 1px solid black; width: 100%; max-height: 800px;">
+          {{> line}}
+        </div>
+      </div>
+    </div>
   </div>
+</template>
+
+<template name="line">
+  <ul style="padding:0px;">
+  {{#each line}}
+    <li class="employee-list">
+      <button class="accordion">
+        {{userName}}
+      </button>
+      <div class="panel">
+  			<button class="rest-option" name="employees">Seat / Remove</button>
+  		</div>
+    </li>
+  {{/each}}
+  </ul>
+</template>
+
+<template name="tables">
+  <ul style="padding:0px;">
+  {{#each tables}}
+    <li class="employee-list">
+      <button class="accordion">
+        {{name}}, {{seats}}, {{status}}
+      </button>
+      <div class="panel">
+  			<button class="rest-option" name="employees">Toggle Status</button>
+  		</div>
+    </li>
+  {{/each}}
+  </ul>
 </template>

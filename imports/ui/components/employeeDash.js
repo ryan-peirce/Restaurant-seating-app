@@ -28,7 +28,7 @@ Template.rest3.events({
     },
 	'click .go-to-app': function(event){
 		event.preventDefault();
-    Router.go('/app');
+    Router.go('/app?' + Session.get('current-id'));
   },
   'click .remove': function(event){
 		event.preventDefault();
