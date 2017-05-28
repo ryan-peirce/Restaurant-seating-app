@@ -54,6 +54,12 @@ AccountsTemplates.addFields([
         required: true,
     },
     {
+        _id: 'phone',
+        type: 'text',
+        displayName: 'Phone Number',
+        required: true,
+    },
+    {
         _id: "gender",
         type: "select",
         displayName: "Gender",

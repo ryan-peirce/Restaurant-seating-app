@@ -42,8 +42,12 @@ Meteor.methods({
 		Rests.update(restId, {$push: {'que': {userId:userId, userName: userName} }});
 		Meteor.users.update(userId, {$push: {'profile.inLine': {restId:restId, restName: restName} }});
 	},
-	'leaveQue' (userId,restId,userName,restName){
-		Rests.update(restId, {$pull: {'que': {userId:userId, userName: userName} }});
-		Meteor.users.update(userId, {$pull: {'profile.inLine': {restId:restId, restName: restName} }});
+	'leaveQue' (userId,restId){
+		Rests.update(restId, {$pull: {'que': {userId:userId} }});
+		Meteor.users.update(userId, {$pull: {'profile.inLine': {restId:restId} }});
+	},
+	'rests.tables.toggleStatus' (restId, table, status){
+		//alert(restId + ' ' + table + ' ' + status);
+		Rests.update({'_id':restId, 'tables.name': table}, {$set: {'tables.$.status': status }});
 	}
 });

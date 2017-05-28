@@ -1,4 +1,5 @@
 <template name="app">
+  {{> appModal}}
   <div class="container">
     {{#each rest}}
       <h2>Application Page: {{name}}, {{location}} </h2>
@@ -6,17 +7,37 @@
     <div class="row">
       <div class="col-lg-6">
         <h4>Tables:</h4>
-        <div style="border: 1px solid black; width: 100%; max-height: 800px;">
+        <div style="border: 1px solid black; width: 100%; max-height: 700px; overflow-y:auto;">
           {{> tables}}
         </div>
       </div>
       <div class="col-lg-6">
-        <h4>Waiting List:</h4>
-        <div style="border: 1px solid black; width: 100%; max-height: 800px;">
+        <div class="row">
+          <div class="col-lg-6">
+            <h4>Waiting List:</h4>
+          </div>
+          <div class="col-lg-6">
+            <button class="add-to-que" name="button">Add To List</button>
+          </div>
+      </div>
+        <div style="border: 1px solid black; width: 100%; max-height: 700px; overflow-y:auto;">
           {{> line}}
         </div>
       </div>
     </div>
+  </div>
+</template>
+
+<template name="appModal">
+  <div class="dash-modal">
+    <i class="fa fa-close close-dash"></i>
+	<br>
+  <form class="add-to-list">
+    Phone Number: <input type="text" name="phone" value="">
+    Name: <input type="text" name="name" value="">
+    <input class="btn" type="submit" name="" value="Submit">
+  </form>
+
   </div>
 </template>
 
@@ -28,7 +49,7 @@
         {{userName}}
       </button>
       <div class="panel">
-  			<button class="rest-option" name="employees">Seat / Remove</button>
+  			<button class="seat-remove" name="employees">Seat / Remove</button>
   		</div>
     </li>
   {{/each}}
@@ -38,14 +59,18 @@
 <template name="tables">
   <ul style="padding:0px;">
   {{#each tables}}
-    <li class="employee-list">
-      <button class="accordion">
-        {{name}}, {{seats}}, {{status}}
-      </button>
-      <div class="panel">
-  			<button class="rest-option" name="employees">Toggle Status</button>
-  		</div>
-    </li>
+    {{> table1}}
   {{/each}}
   </ul>
+</template>
+
+<template name="table1">
+  <li class="employee-list">
+    <button class="accordion">
+      {{name}}, {{seats}}, <span style="background-color:{{#if $eq status 'open'}}green{{else}}red{{/if}}">{{status}}</span>
+    </button>
+    <div class="panel">
+      <button class="toggle-status" name="employees">Toggle Status</button>
+    </div>
+  </li>
 </template>
