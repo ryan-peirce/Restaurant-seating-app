@@ -2,6 +2,11 @@ import '/imports/ui/pages/app.html';
 
 
 Template.app.rendered = function(){
+  if(Meteor.user() === null){
+    alert('permission denied');
+    Router.go('/');
+  }
+  else{
     var found = false;
     var id = Iron.Location.get().path.split('?');
     Session.set('current-id', id[1]);
@@ -16,6 +21,8 @@ Template.app.rendered = function(){
       alert('permission denied');
       Router.go('/');
     }
+  }
+
 
 }
 
