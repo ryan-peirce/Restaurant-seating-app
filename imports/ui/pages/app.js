@@ -1,0 +1,136 @@
+import '/imports/ui/pages/app.html';
+
+
+Template.app.rendered = function(){
+  if(Meteor.user() === null){
+    alert('permission denied');
+    Router.go('/');
+  }
+  else{
+    var found = false;
+    var id = Iron.Location.get().path.split('?');
+    Session.set('current-id', id[1]);
+    var works = Meteor.user().profile.worksAt;
+    for(i in works){
+      if(works[i].restId === id[1]){
+        found = true;
+        alert('permission granted');
+      }
+    }
+    if(found === false){
+      alert('permission denied');
+      Router.go('/');
+    }
+  }
+
+
+}
+
+Template.tables.events({
+  'click .accordion': function(event){
+  Session.set('table-name',this.name);
+  event.preventDefault();
+  $(".panel").css("maxHeight", "0px");
+  var act = event.target.classList.contains('active');
+  $(".accordion").toggleClass('active',false);
+  var panel = event.target.nextElementSibling;
+  if(act){
+    event.target.classList.toggle("active",false);
+    panel.style.maxHeight = "0px";
+  }
+  else{
+    event.target.classList.toggle("active",true);
+    panel.style.maxHeight = panel.scrollHeight + "px";
+  }
+  },
+  'click .toggle-status': function(event){
+    var status;
+      if(this.status === 'open'){
+        status = 'full';
+      }
+      else{
+        status = 'open';
+      }
+      Meteor.call('rests.tables.toggleStatus', Session.get('current-id'), this.name, status);
+  }
+})
+
+Template.line.events({
+  'click .accordion': function(event){
+  Session.set('patron-name',this.name);
+  event.preventDefault();
+  $(".panel").css("maxHeight", "0px");
+  var act = event.target.classList.contains('active');
+  $(".accordion").toggleClass('active',false);
+  var panel = event.target.nextElementSibling;
+  if(act){
+    event.target.classList.toggle("active",false);
+    panel.style.maxHeight = "0px";
+  }
+  else{
+    event.target.classList.toggle("active",true);
+    panel.style.maxHeight = panel.scrollHeight + "px";
+  }
+
+  },
+  'click .seat-remove': function(event){
+    Meteor.call('leaveQue',this.userId , Session.get('current-id'));
+  }
+})
+
+Template.appModal.events({
+    'click .close-dash': function(event){
+		    event.preventDefault();
+        $(".dash-modal").toggleClass('open');
+    },
+    'submit .add-to-list': function(event){
+      event.preventDefault();
+
+      Meteor.call('addToQue', event.target.phone.value, Session.get('current-id'), event.target.name.value, restName);
+
+    }
+});
+
+Template.app.events({
+  'click .add-to-que': function(event){
+    $(".dash-modal").toggleClass('open');
+  }
+})
+
+var restName = function(){
+  var id = Iron.Location.get().path.split('?');
+  return Rests.find({_id: id[1]}).name;
+}
+
+Template.app.helpers({
+  rest: function() {
+    var id = Iron.Location.get().path.split('?');
+		return Rests.find({_id: id[1]});
+  },
+  first: function(){
+       return Meteor.user().profile.firstName;
+   },
+   last: function(){
+       return Meteor.user().profile.lastName;
+   }
+});
+
+Template.tables.helpers({
+  tables: function(){
+    return Rests.findOne({_id: Session.get('current-id')}).tables;
+  }
+});
+
+Template.table1.helpers({
+  color: function(){
+    var color = 'df';
+
+    return color;
+  }
+});
+
+Template.line.helpers({
+  line: function(){
+    return Rests.findOne({_id: Session.get('current-id')}).que;
+  }
+});

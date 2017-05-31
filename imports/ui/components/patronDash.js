@@ -47,6 +47,9 @@ Template.patronDash.events({
     Session.set('party',event.target.searchSize.value);
 
     },
+	'click .send': function(){
+		Meteor.call('sendEmail', Meteor.user().emails[0].address);
+	}
 });
 
 Template.rest2.events({
