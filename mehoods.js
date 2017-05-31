@@ -49,5 +49,14 @@ Meteor.methods({
 	'rests.tables.toggleStatus' (restId, table, status){
 		//alert(restId + ' ' + table + ' ' + status);
 		Rests.update({'_id':restId, 'tables.name': table}, {$set: {'tables.$.status': status }});
+	},
+	'sendEmail' :function(to) {
+		this.unblock();
+		Email.send({
+		  to: to,
+		  from: "no-reply@cse480.com",
+		  subject: "Your wait time",
+		  text: "Congrats you sent an email",
+		});
 	}
 });
