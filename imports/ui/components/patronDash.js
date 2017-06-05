@@ -2,6 +2,7 @@ import '/imports/ui/components/patronDash.html';
 
 Session.set('search','');
 Session.set('party','1');
+var interval;
 
 Template.patronDash.helpers({
   rests() {
@@ -49,6 +50,23 @@ Template.patronDash.events({
     },
 	'click .send': function(){
 		Meteor.call('sendEmail', Meteor.user().emails[0].address);
+	},
+  'click .textMsg': function(){
+    Meteor.call('sendSMS', Meteor.user().profile.phone);
+  },
+  'change .sms': function(event) {
+		if (event.target.checked){
+      interval = Meteor.setInterval(function() {Meteor.call('sendSMS', Meteor.user().profile.phone);},10000);
+    }else{
+      Meteor.clearInterval(interval);
+    }
+	},
+  'change .email': function(event) {
+		if (event.target.checked){
+      interval2 = Meteor.setInterval(function() {Meteor.call('sendEmail', Meteor.user().emails[0].address);},10000);
+    }else{
+      Meteor.clearInterval(interval2);
+    }
 	}
 });
 

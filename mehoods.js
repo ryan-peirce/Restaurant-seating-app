@@ -58,5 +58,11 @@ Meteor.methods({
 		  subject: "Your wait time",
 		  text: "Congrats you sent an email",
 		});
-	}
+	},
+	'sendSMS': function (to) {
+    twilioClient.sendSMS({
+      to: to,
+      body: "test"
+    });
+  }
 });
