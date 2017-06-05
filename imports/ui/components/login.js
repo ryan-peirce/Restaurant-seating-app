@@ -21,7 +21,7 @@ var mySubmitFunc = function(error, state){
         if (state === "signUp") {
             // Successfully registered
             // ...
-            window.alert('Acocunt Successfully Created');
+            window.alert('Account Successfully Created');
             Router.go('/dashboard');
         }
     }
