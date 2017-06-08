@@ -1,7 +1,7 @@
 import '/imports/ui/components/patronDash.html';
 
 Session.set('search','');
-Session.set('party','1');
+Session.set('party','4');
 
 Template.patronDash.helpers({
   rests() {
@@ -30,12 +30,22 @@ Template.patronDash.helpers({
 Template.rest2.helpers({
   inQue() {
     var userId = Meteor.userId();
+    var obj = {
+      name:"",
+      status:""
+    }
     for(i in this.que){
       var id = this.que[i].userId;
-      if (id === userId)
-      return "**IN LINE**";
-    }
+      var party = this.que[i].party;
+      var wait = this.que[i].wait;
+      if (id === userId){
+        obj.name = "**IN LINE: party of "+party+", "+wait+" min wait**";
+        obj.status = "**IN LINE**";
+        return obj;
+      }
 
+    }
+    return obj;
   },
 });
 
@@ -65,7 +75,7 @@ Template.rest2.events({
     },
 	'click .get-in-line': function(event){
 		event.preventDefault();
-		Meteor.call('addToQue',Meteor.userId() ,this._id,Meteor.user().profile.firstName + "," + Meteor.user().profile.lastName,this.name);
+		Meteor.call('addToQue',Meteor.userId() ,this._id,Meteor.user().profile.firstName + "," + Meteor.user().profile.lastName,this.name, Session.get('party'));
   },
   'click .get-out-line': function(event){
 		event.preventDefault();

@@ -24,8 +24,16 @@ Template.app.rendered = function(){
   }
 
 
-}
 
+
+
+}
+/*
+setInterval(function(){
+  console.log('f');
+  Meteor.call('rests.tables.updateTime', Session.get('current-id'));
+}, 2000);
+*/
 Template.tables.events({
   'click .accordion': function(event){
   Session.set('table-name',this.name);
@@ -86,7 +94,7 @@ Template.appModal.events({
     'submit .add-to-list': function(event){
       event.preventDefault();
 
-      Meteor.call('addToQue', event.target.phone.value, Session.get('current-id'), event.target.name.value, restName);
+      Meteor.call('addToQue', event.target.phone.value, Session.get('current-id'), event.target.name.value, restName,event.target.party.value);
 
     }
 });
@@ -115,6 +123,8 @@ Template.app.helpers({
    }
 });
 
+
+
 Template.tables.helpers({
   tables: function(){
     return Rests.findOne({_id: Session.get('current-id')}).tables;
@@ -126,8 +136,21 @@ Template.table1.helpers({
     var color = 'df';
 
     return color;
+  },
+  createdAtFormatted: function(context, options) {
+
+    var d = new Date();
+		var n = d.getTime();
+    if(context)
+    return Template.instance().createdAtFormatted.get();//(d - context)/1000;
   }
 });
+
+
+
+Template.table1.destroyed = function() {
+  Meteor.clearInterval(this.handle);
+};
 
 Template.line.helpers({
   line: function(){
