@@ -83,6 +83,10 @@ Template.line.events({
   },
   'click .seat-remove': function(event){
     Meteor.call('leaveQue',this.userId , Session.get('current-id'));
+    var phoneNumber = this.phone;
+    var message = "Your reservation is ready.";
+      console.log(phoneNumber,message);
+      //Meteor.call('NicksTexingFunction', phoneNumber, message);
   }
 })
 
@@ -94,7 +98,7 @@ Template.appModal.events({
     'submit .add-to-list': function(event){
       event.preventDefault();
 
-      Meteor.call('addToQue', event.target.phone.value, Session.get('current-id'), event.target.name.value, restName,event.target.party.value);
+      Meteor.call('addToQue', event.target.phone.value, Session.get('current-id'), event.target.name.value, restName,event.target.party.value, event.target.phone.value);
 
     }
 });

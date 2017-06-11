@@ -75,7 +75,7 @@ Template.rest2.events({
     },
 	'click .get-in-line': function(event){
 		event.preventDefault();
-		Meteor.call('addToQue',Meteor.userId() ,this._id,Meteor.user().profile.firstName + "," + Meteor.user().profile.lastName,this.name, Session.get('party'));
+		Meteor.call('addToQue',Meteor.userId() ,this._id,Meteor.user().profile.firstName + "," + Meteor.user().profile.lastName,this.name, Session.get('party'), Meteor.user().profile.phone);
   },
   'click .get-out-line': function(event){
 		event.preventDefault();

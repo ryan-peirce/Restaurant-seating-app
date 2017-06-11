@@ -38,8 +38,8 @@ Meteor.methods({
 	'rests.addTable'(restId,tableName,seats){
 		Rests.update(restId, {$push: { tables: {name: tableName, seats: seats, status:"open"} }});
 	},
-	'addToQue' (userId,restId,userName,restName,party){
-		Rests.update(restId, {$push: {'que': {userId:userId, userName: userName, party: party, wait: 0} }});
+	'addToQue' (userId,restId,userName,restName,party, phone){
+		Rests.update(restId, {$push: {'que': {userId:userId, userName: userName, party: party, wait: 0, phone: phone} }});
 		Meteor.users.update(userId, {$push: {'profile.inLine': {restId:restId, restName: restName, party: party, wait: 0} }});
 	},
 	'leaveQue' (userId,restId){
@@ -215,6 +215,14 @@ Meteor.methods({
 						}
 
 						queArray[i].wait = thisWait;
+
+						var phoneNumber = queArray[i].phone;
+						var message = "Your reservation will be ready in 5 mins.";
+						if(thisWait <= 5 && queArray[i].warned != true){
+							console.log(phoneNumber,message);
+							queArray[i].warned = true;
+							//Meteor.call('NicksTexingFunction', phoneNumber, message);
+						}
 
 					}
 
