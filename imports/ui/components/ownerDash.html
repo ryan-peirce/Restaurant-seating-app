@@ -40,19 +40,21 @@
 <template name="employees">
 	<div id="employees" class="hidden dashModalOptions">
 		employees:
-		<div style="height: 400px;overflow:auto; border: 1px solid black">
-		<ul style="padding:0px;">
-		{{#each employees1}}
-			{{> employee}}
-		{{/each}}
-		</ul>
+		<div class="dash-modal">
+			<div style="height: 70%; width: 90%; overflow:auto; border: 1px solid black; margin: 1em;">
+				<ul style="padding:0px;">
+					{{#each employees1}}
+						{{> employee}}
+					{{/each}}
+				</ul>
+			</div>
+				<form>
+					Employee Email:<input type="text" name="empEmail">First Name:<input type="text" name="empFirst"><br>
+					Last Name:<input type="text" name="empLast">Position:<input type="text" name="empPos">
+				<input class="btn " type="submit" value="Add Employee">
+				</form>
 		</div>
-		<form>
-			Employee Email:<input type="text" name="empEmail">First Name:<input type="text" name="empFirst"><br>
-			Last Name:<input type="text" name="empLast">Position:<input type="text" name="empPos">
-		<input class="btn " type="submit" value="Add Employee">
-		</form>
-	</div>
+  </div>
 </template>
 
 <template name="editRest">
@@ -60,14 +62,14 @@
 		Resturant: {{name}}, {{location}}
 		<div class="row">
 			<div class="col-lg-6">
-				Edit name:<form class="new-rest-name"><input type="text" name="restName"><input class="btn " type="submit" value="Submit new name"></form><br>
+				Edit name:<form class="new-rest-name"><input type="text" name="restName"><input class="btn " type="submit" value="Submit new name"></form>
 				Edit location:<form class="new-rest-loc"><input type="text" name="restLoc"><input  class="btn " type="submit" value="Submit new location"></form>
 			</div>
 			<div class="col-lg-6">
-				Kitchen output: {{kitchenOutput}}<br>
-				Define kitchen output:<form class="kitchen-output"><input type="text" name="kitchenOutput"><input class="btn " type="submit" value="Submit"></form><br>
+			  Kitchen output: {{kitchenOutput}}<br>
+				Define kitchen output:<form class="kitchen-output"><input type="text" name="kitchenOutput"><input class="btn " type="submit" value="Submit"></form>
 				The kitchen output is a number 1-10 rating the output potential of your kitchen facility and staff. A 10 means that at full capacity your kitchen does not get backed up.
-				A 5 means that it backs up at half capacity, and so on.
+			  A 5 means that it backs up at half capacity, and so on.
 			</div>
 		</div>
 			Tables:<br>
