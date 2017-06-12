@@ -35,6 +35,7 @@
   <form class="add-to-list">
     Phone Number: <input type="text" name="phone" value="">
     Name: <input type="text" name="name" value="">
+    Party Size:: <input type="text" name="party" value="4">
     <input class="btn" type="submit" name="" value="Submit">
   </form>
 
@@ -46,7 +47,7 @@
   {{#each line}}
     <li class="employee-list">
       <button class="accordion">
-        {{userName}}
+        {{userName}}: Party of {{party}}
       </button>
       <div class="panel">
   			<button class="seat-remove" name="employees">Seat / Remove</button>
@@ -67,7 +68,7 @@
 <template name="table1">
   <li class="employee-list">
     <button class="accordion">
-      {{name}}, {{seats}}, <span style="background-color:{{#if $eq status 'open'}}green{{else}}red{{/if}}">{{status}}</span>
+      {{name}}, {{seats}}, <span style="background-color:{{#if $eq status 'open'}}green{{else}}red{{/if}}">{{status}}</span>,{{time}}
     </button>
     <div class="panel">
       <button class="toggle-status" name="employees">Toggle Status</button>

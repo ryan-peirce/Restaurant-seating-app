@@ -16,3 +16,11 @@ var postSignUp = function(userId, info){
 AccountsTemplates.configure({
     postSignUpHook: postSignUp
 });
+
+
+Meteor.setInterval(function(){
+  console.log('updating table times');
+  Meteor.call('rests.tables.updateTime');
+  Meteor.call('rests.updateWaits');
+}
+  , 60000);

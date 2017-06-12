@@ -16,7 +16,7 @@
 	<br>
 	<form>
 		Show me resturants in:<input type="text" name="searchArea">
-		Party size:<input type="text" name="searchSize">
+		Party size:<input type="text" name="searchSize" value="4">
 		<input class="btn btn-primary" type="submit" value="Search">
 	</form>
 	<div style="height: 500px; overflow:auto; border: 1px solid black">
@@ -32,7 +32,7 @@
 <template name="rest2">
 	<li class="rest-list">
 		<button class="accordion">
-			{{name}}, {{location}} <span style="color:red;">{{inQue}}</span>:  <span style="float:right">Current wait time {{#if $.Session.equals 'party' '1'}} {{waits.one}} {{/if}}
+			{{name}}, {{location}} <span style="color:red;">{{inQue.name}}</span>:  <span style="float:right">Current wait time {{#if $.Session.equals 'party' '1'}} {{waits.one}} {{/if}}
 																																						{{#if $.Session.equals 'party' '2'}} {{waits.two}} {{/if}}
 																																						{{#if $.Session.equals 'party' '3'}} {{waits.three}} {{/if}}
 																																						{{#if $.Session.equals 'party' '4'}} {{waits.four}} {{/if}}
@@ -40,7 +40,7 @@
 																																						{{#if $.Session.equals 'party' '6+'}} {{waits.sixUp}} {{/if}}mins</span>
 		</button>
 		<div class="panel">
-			{{#if $eq inQue "**IN LINE**"}}
+			{{#if $eq inQue.status "**IN LINE**"}}
 			<button class="get-out-line" >Get Out Of Line</button>
 			{{else}}
 			<button class="get-in-line" >Get In Line </button>
