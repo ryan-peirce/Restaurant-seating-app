@@ -38,8 +38,8 @@ Meteor.methods({
 	'rests.addTable'(restId,tableName,seats){
 		Rests.update(restId, {$push: { tables: {name: tableName, seats: seats, status:"open"} }});
 	},
-	'addToQue' (userId,restId,userName,restName,party, phone){
-		Rests.update(restId, {$push: {'que': {userId:userId, userName: userName, party: party, wait: 0, phone: phone} }});
+	'addToQue' (userId,restId,userName,restName,party, phone, email, contactSMS, contactEmail){
+		Rests.update(restId, {$push: {'que': {userId:userId, userName: userName, party: party, wait: 0, phone: phone, email: email, contactSMS: contactSMS, contactEmail: contactEmail} }});
 		Meteor.users.update(userId, {$push: {'profile.inLine': {restId:restId, restName: restName, party: party, wait: 0} }});
 	},
 	'leaveQue' (userId,restId){
@@ -59,19 +59,19 @@ Meteor.methods({
 		}
 		Rests.update({'_id':restId, 'tables.name': table}, {$set: {'tables.$.status': status, 'tables.$.time': remaining}});
 	},
-	'sendEmail' :function(to) {
+	'sendEmail' :function(to, message) {
 		this.unblock();
 		Email.send({
 		  to: to,
 		  from: "no-reply@cse480.com",
 		  subject: "Your wait time",
-		  text: "Congrats you sent an email",
+		  text: message,
 		});
 	},
-	'sendSMS': function (to) {
+	'sendSMS': function (to, message) {
     twilioClient.sendSMS({
       to: to,
-      body: "test"
+      body: message
     });
   },
 	'rests.tables.updateTime' (){
@@ -236,7 +236,12 @@ Meteor.methods({
 						if(thisWait <= 5 && queArray[i].warned != true){
 							console.log(phoneNumber,message);
 							queArray[i].warned = true;
-							//Meteor.call('NicksTexingFunction', phoneNumber, message);
+							if (queArray[i].contactSMS){
+								Meteor.call('sendSMS', phoneNumber, message);
+							}
+							if (queArray[i].contactEmail){
+								Meteor.call('sendEmail', queArray[i].email, message);
+							}
 						}
 
 					}
@@ -246,17 +251,18 @@ Meteor.methods({
 
 
 				}
-			},
-			calcWait = function(index, totalTables, avg, que){
-				return que[index - (Math.floor(index/totalTables)*totalTables)] + avg*(Math.floor(index/totalTables));
 			}
-
-			checkNull = function(num){
-				if(num == null || num == 'undefined' || num == NaN || num == "NaN"){
-					return 0;
-				}
-				else{
-					return num;
-				}
-		}
 });
+
+calcWait = function(index, totalTables, avg, que){
+	return que[index - (Math.floor(index/totalTables)*totalTables)] + avg*(Math.floor(index/totalTables));
+}
+
+checkNull = function(num){
+	if(num == null || num == 'undefined' || num == NaN || num == "NaN"){
+		return 0;
+	}
+	else{
+		return num;
+	}
+}

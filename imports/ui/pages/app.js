@@ -84,9 +84,15 @@ Template.line.events({
   'click .seat-remove': function(event){
     Meteor.call('leaveQue',this.userId , Session.get('current-id'));
     var phoneNumber = this.phone;
+    var emailAddress = this.email;
     var message = "Your reservation is ready.";
       console.log(phoneNumber,message);
-      //Meteor.call('NicksTexingFunction', phoneNumber, message);
+      if (this.contactSMS){
+        Meteor.call('sendSMS', phoneNumber, message);
+      }
+      if (this.contactEmail){
+        Meteor.call('sendEmail', emailAddress, message);
+      }
   }
 })
 

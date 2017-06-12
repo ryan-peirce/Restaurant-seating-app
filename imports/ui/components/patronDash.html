@@ -4,20 +4,23 @@
 	<h3>Welcome {{first}} {{last}}</h3>
 	<!--<button class="send">Email</button>
 	<button class="textMsg">SMS</button>-->
-	<label class="email">
-		<input type="checkbox">
-		Email
-	</label>
-	<label class="sms">
-		<input type="checkbox">
-		SMS
-	</label>
+	<div class="contact">
+		<label style="margin-right: 0.5em;">Preferred Contact Method:</label>
+		<label class="email">
+			<input type="checkbox" checked="{{contactEmail}}">
+			Email
+		</label>
+		<label class="sms">
+			<input type="checkbox" checked="{{contactSMS}}">
+			SMS
+		</label>
+	</div>
 	<br>
 	<br>
 	<form>
-		Show me resturants in:<input type="text" name="searchArea">
-		Party size:<input type="text" name="searchSize" value="4">
-		<input class="btn btn-primary" type="submit" value="Search">
+		Show me resturants in: <input type="text" name="searchArea">
+		Party size: <input type="text" name="searchSize" value="4">
+		<input class="btn btn-primary" type="submit" value="Search" style="margin-bottom: 0.25em;">
 	</form>
 	<div style="height: 500px; overflow:auto; border: 1px solid black">
 		<ul style="padding:0px;">

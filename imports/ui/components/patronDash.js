@@ -1,7 +1,6 @@
 import '/imports/ui/components/patronDash.html';
 
 Session.set('search','');
-var interval;
 Session.set('party','4');
 
 
@@ -26,6 +25,12 @@ Template.patronDash.helpers({
    },
    inLine() {
      return Meteor.user().profile.inLine;
+   },
+   contactSMS: function(){
+     return Meteor.user().profile.contactSMS;
+   },
+   contactEmail: function(){
+     return Meteor.user().profile.contactEmail;
    }
 });
 
@@ -58,26 +63,19 @@ Template.patronDash.events({
 		Session.set('search',event.target.searchArea.value);
     Session.set('party',event.target.searchSize.value);
 
-    },
-	'click .send': function(){
+  },
+	/*'click .send': function(){
 		Meteor.call('sendEmail', Meteor.user().emails[0].address);
 	},
   'click .textMsg': function(){
     Meteor.call('sendSMS', Meteor.user().profile.phone);
-  },
+  },*/
   'change .sms': function(event) {
-		if (event.target.checked){
-      interval = Meteor.setInterval(function() {Meteor.call('sendSMS', Meteor.user().profile.phone);},10000);
-    }else{
-      Meteor.clearInterval(interval);
-    }
+    //interval = Meteor.setInterval(function() {Meteor.call('sendSMS', Meteor.user().profile.phone);},10000);
+    Meteor.users.update(Meteor.userId(), {$set: {'profile.contactSMS': event.target.checked}});
 	},
   'change .email': function(event) {
-		if (event.target.checked){
-      interval2 = Meteor.setInterval(function() {Meteor.call('sendEmail', Meteor.user().emails[0].address);},10000);
-    }else{
-      Meteor.clearInterval(interval2);
-    }
+	   Meteor.users.update(Meteor.userId(), {$set: {'profile.contactEmail': event.target.checked}});
 	}
 });
 
@@ -97,7 +95,7 @@ Template.rest2.events({
     },
 	'click .get-in-line': function(event){
 		event.preventDefault();
-		Meteor.call('addToQue',Meteor.userId() ,this._id,Meteor.user().profile.firstName + "," + Meteor.user().profile.lastName,this.name, Session.get('party'), Meteor.user().profile.phone);
+		Meteor.call('addToQue',Meteor.userId() ,this._id,Meteor.user().profile.firstName + "," + Meteor.user().profile.lastName,this.name, Session.get('party'), Meteor.user().profile.phone, Meteor.user().emails[0].address, Meteor.user().profile.contactSMS, Meteor.user().profile.contactEmail);
   },
   'click .get-out-line': function(event){
 		event.preventDefault();
