@@ -1,4 +1,5 @@
 <template name="app">
+  {{> waitModal}}
   {{> appModal}}
   <div class="container">
     {{#each rest}}
@@ -31,14 +32,26 @@
 <template name="appModal">
   <div class="dash-modal">
     <i class="fa fa-close close-dash"></i>
-	<br>
-  <form class="add-to-list">
-    Phone Number: <input type="text" name="phone" value="">
-    Name: <input type="text" name="name" value="">
-    Party Size:: <input type="text" name="party" value="4">
-    <input class="btn" type="submit" name="" value="Submit">
-  </form>
+  	<br>
+    <form class="add-to-list">
+      Phone Number: <input type="text" name="phone" value="">
+      Name: <input type="text" name="name" value="">
+      Party Size:: <input type="text" name="party" value="4">
+      <input class="btn" type="submit" name="" value="Submit">
+    </form>
 
+  </div>
+</template>
+
+<template name="waitModal">
+  <div class="small-modal">
+    <i class="fa fa-close close-dash"></i>
+    <br>
+    <form class="addTime">
+      How much time would you like to add?<br>
+      <input type="text" name="time" value="" style="margin-bottom: 0.25em;"> minutes<br>
+      <input class="btn" type="submit" value="Submit">
+    </form>
   </div>
 </template>
 
@@ -72,6 +85,7 @@
     </button>
     <div class="panel">
       <button class="toggle-status" name="employees">Toggle Status</button>
+      <button class="add-wait">Add Wait Time</button>
     </div>
   </li>
 </template>

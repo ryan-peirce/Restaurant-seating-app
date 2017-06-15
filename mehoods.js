@@ -59,6 +59,19 @@ Meteor.methods({
 		}
 		Rests.update({'_id':restId, 'tables.name': table}, {$set: {'tables.$.status': status, 'tables.$.time': remaining}});
 	},
+	'rests.tables.addTime' (restId, table, time){
+		var tables = Rests.findOne({'_id': restId}).tables;
+		var curTime = 0;
+		for(var i = 0; i < tables.length; i++){
+			if (tables[i].name === table){
+				curTime = tables[i].time;
+			}
+		}
+		time = parseInt(time)
+		curTime = parseInt(curTime)
+		time = time + curTime;
+		Rests.update({'_id':restId, 'tables.name': table}, {$set: {'tables.$.status': 'full', 'tables.$.time': time}});
+	},
 	'sendEmail' :function(to, message) {
 		this.unblock();
 		Email.send({

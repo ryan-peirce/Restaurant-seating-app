@@ -60,6 +60,9 @@ Template.tables.events({
         status = 'open';
       }
       Meteor.call('rests.tables.toggleStatus', Session.get('current-id'), this.name, status);
+  },
+  'click .add-wait': function(event){
+    $(".small-modal").toggleClass('open');
   }
 })
 
@@ -107,6 +110,17 @@ Template.appModal.events({
       Meteor.call('addToQue', event.target.phone.value, Session.get('current-id'), event.target.name.value, restName,event.target.party.value, event.target.phone.value);
 
     }
+});
+
+Template.waitModal.events({
+  'click .close-dash': function(event){
+      $(".small-modal").toggleClass('open');
+  },
+  'submit .addTime': function(event){
+    event.preventDefault();
+    Meteor.call('rests.tables.addTime', Session.get('current-id'), Session.get('table-name'), event.target.time.value);
+    //Meteor.call('addToQue', event.target.phone.value, Session.get('current-id'), event.target.name.value, restName,event.target.party.value, event.target.phone.value);
+  }
 });
 
 Template.app.events({
