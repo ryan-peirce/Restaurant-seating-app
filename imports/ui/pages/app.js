@@ -60,6 +60,7 @@ Template.tables.events({
         status = 'open';
       }
       Meteor.call('rests.tables.toggleStatus', Session.get('current-id'), this.name, status);
+      Meteor.call('rests.updateWaits');
   },
   'click .add-wait': function(event){
     $(".small-modal").toggleClass('open');
@@ -86,6 +87,7 @@ Template.line.events({
   },
   'click .seat-remove': function(event){
     Meteor.call('leaveQue',this.userId , Session.get('current-id'));
+    Meteor.call('rests.updateWaits');
     var phoneNumber = this.phone;
     var emailAddress = this.email;
     var message = "Your reservation is ready.";
@@ -108,6 +110,7 @@ Template.appModal.events({
       event.preventDefault();
 
       Meteor.call('addToQue', event.target.phone.value, Session.get('current-id'), event.target.name.value, restName,event.target.party.value, event.target.phone.value);
+      Meteor.call('rests.updateWaits');
 
     }
 });
@@ -119,6 +122,7 @@ Template.waitModal.events({
   'submit .addTime': function(event){
     event.preventDefault();
     Meteor.call('rests.tables.addTime', Session.get('current-id'), Session.get('table-name'), event.target.time.value);
+    Meteor.call('rests.updateWaits');
     //Meteor.call('addToQue', event.target.phone.value, Session.get('current-id'), event.target.name.value, restName,event.target.party.value, event.target.phone.value);
   }
 });

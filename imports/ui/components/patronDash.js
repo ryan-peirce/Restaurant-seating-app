@@ -96,9 +96,11 @@ Template.rest2.events({
 	'click .get-in-line': function(event){
 		event.preventDefault();
 		Meteor.call('addToQue',Meteor.userId() ,this._id,Meteor.user().profile.firstName + "," + Meteor.user().profile.lastName,this.name, Session.get('party'), Meteor.user().profile.phone, Meteor.user().emails[0].address, Meteor.user().profile.contactSMS, Meteor.user().profile.contactEmail);
+    Meteor.call('rests.updateWaits');
   },
   'click .get-out-line': function(event){
 		event.preventDefault();
 		Meteor.call('leaveQue',Meteor.userId() ,this._id,Meteor.user().profile.firstName + "," + Meteor.user().profile.lastName,this.name);
+    Meteor.call('rests.updateWaits');
     }
 });
