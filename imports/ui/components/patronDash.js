@@ -37,20 +37,47 @@ Template.patronDash.helpers({
 Template.rest2.helpers({
   inQue() {
     var userId = Meteor.userId();
+    var found = false;
     var obj = {
       name:"",
-      status:""
+      status:"",
+      overall:""
     }
     for(i in this.que){
       var id = this.que[i].userId;
       var party = this.que[i].party;
       var wait = this.que[i].wait;
       if (id === userId){
-        obj.name = "**IN LINE: party of "+party+", "+wait+" min wait**";
+        obj.name =  i +" groups in front of you. Remaining wait: "+wait+" mins";
         obj.status = "**IN LINE**";
-        return obj;
+        found = true;
+
       }
 
+    }
+    if(found == false){
+      var wait = 0;
+      switch(Session.get('party')){
+        case '1':
+          wait = this.waits.one;
+          break;
+        case '2':
+          wait = this.waits.two;
+          break;
+        case '3':
+          wait = this.waits.three;
+          break;
+        case '4':
+          wait = this.waits.four;
+          break;
+        case '5':
+          wait = this.waits.five;
+          break;
+        case '6+':
+          wait = this.waits.sixUp;
+          break;
+      }
+      obj.overall = 'Current wait time: ' + wait + ' mins';
     }
     return obj;
   },
@@ -82,23 +109,28 @@ Template.patronDash.events({
 Template.rest2.events({
     'click .accordion': function(event){
 		Session.set('current-id',this._id);
-		event.preventDefault();
+    event.preventDefault();
     $(".panel").css("maxHeight", "0px");
+    var act = event.target.classList.contains('active');
     $(".accordion").toggleClass('active',false);
-    event.target.classList.toggle("active");
     var panel = event.target.nextElementSibling;
-    if (panel.style.maxHeight.localeCompare('0px') != 0){
+    if(act){
+      event.target.classList.toggle("active",false);
       panel.style.maxHeight = "0px";
-    } else {
+    }
+    else{
+      event.target.classList.toggle("active",true);
       panel.style.maxHeight = panel.scrollHeight + "px";
     }
     },
 	'click .get-in-line': function(event){
 		event.preventDefault();
 		Meteor.call('addToQue',Meteor.userId() ,this._id,Meteor.user().profile.firstName + "," + Meteor.user().profile.lastName,this.name, Session.get('party'), Meteor.user().profile.phone, Meteor.user().emails[0].address, Meteor.user().profile.contactSMS, Meteor.user().profile.contactEmail);
+    Meteor.call('rests.updateWaits');
   },
   'click .get-out-line': function(event){
 		event.preventDefault();
 		Meteor.call('leaveQue',Meteor.userId() ,this._id,Meteor.user().profile.firstName + "," + Meteor.user().profile.lastName,this.name);
+    Meteor.call('rests.updateWaits');
     }
 });

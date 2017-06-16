@@ -35,12 +35,7 @@
 <template name="rest2">
 	<li class="rest-list">
 		<button class="accordion">
-			{{name}}, {{location}} <span style="color:red;">{{inQue.name}}</span>:  <span style="float:right">Current wait time {{#if $.Session.equals 'party' '1'}} {{waits.one}} {{/if}}
-																																						{{#if $.Session.equals 'party' '2'}} {{waits.two}} {{/if}}
-																																						{{#if $.Session.equals 'party' '3'}} {{waits.three}} {{/if}}
-																																						{{#if $.Session.equals 'party' '4'}} {{waits.four}} {{/if}}
-																																						{{#if $.Session.equals 'party' '5'}} {{waits.five}} {{/if}}
-																																						{{#if $.Session.equals 'party' '6+'}} {{waits.sixUp}} {{/if}}mins</span>
+			{{name}}, {{location}}   <span style="float: right"><span style="color:red; ">{{inQue.name}}</span>{{inQue.overall}}</span>
 		</button>
 		<div class="panel">
 			{{#if $eq inQue.status "**IN LINE**"}}
