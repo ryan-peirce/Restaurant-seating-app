@@ -146,8 +146,16 @@ div.panel {
 		z-index: 9998;
 }
 
-.col-lg-6 {
-  float: left;
+.waitAvg {
+  font-color: #444;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.waitAvg input[type=text] {
+  width: 50px;
+  margin-right: 10px;
 }
 
 .contact {

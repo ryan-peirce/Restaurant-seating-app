@@ -14,6 +14,7 @@ Template.addRests.events({
                     owner_id:  ownerId,
                     kitchen_output: 10,
                     waits:{one: 0, two: 0, three: 0, four: 0, five: 0, sixUp: 0},
+                    avg_wait:{one: 40, two: 40, three: 40, four: 40, five: 40, sixUp: 40},
                     tables: [  ],
                     que: [],
                     reservations: []

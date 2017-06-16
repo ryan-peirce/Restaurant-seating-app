@@ -53,13 +53,34 @@ Template.tables.events({
   },
   'click .toggle-status': function(event){
     var status;
-      if(this.status === 'open'){
-        status = 'full';
+    var restWait = Rests.findOne({_id: Session.get('current-id')}).avg_wait;
+    var avgWait;
+    switch(this.seats) {
+      case "1":
+        avgWait = restWait.one;
+        break;
+      case "2":
+        avgWait = restWait.two;
+        break;
+      case "3":
+        avgWait = restWait.three;
+        break;
+      case "4":
+        avgWait = restWait.four;
+        break;
+      case "5":
+        avgWait = restWait.five;
+        break;
+      default:
+        avgWait = restWait.sixUp;
       }
-      else{
-        status = 'open';
-      }
-      Meteor.call('rests.tables.toggleStatus', Session.get('current-id'), this.name, status);
+    if(this.status === 'open'){
+      status = 'full';
+    }
+    else{
+      status = 'open';
+    }
+    Meteor.call('rests.tables.toggleStatus', Session.get('current-id'), this.name, status, avgWait);
   },
   'click .add-wait': function(event){
     $(".small-modal").toggleClass('open');
@@ -126,6 +147,11 @@ Template.waitModal.events({
 Template.app.events({
   'click .add-to-que': function(event){
     $(".dash-modal").toggleClass('open');
+  },
+  'submit .waitAvg': function(event){
+    event.preventDefault();
+    Meteor.call('updateAvgWait', Session.get('current-id'), event.target.one.value, event.target.two.value, event.target.three.value, event.target.four.value, event.target.five.value, event.target.sixUp.value);
+    alert("Averages Changed");
   }
 })
 
@@ -144,6 +170,24 @@ Template.app.helpers({
    },
    last: function(){
        return Meteor.user().profile.lastName;
+   },
+   one: function(){
+     return Rests.findOne({_id: Session.get('current-id')}).avg_wait.one;
+   },
+   two: function(){
+     return Rests.findOne({_id: Session.get('current-id')}).avg_wait.two;
+   },
+   three: function(){
+     return Rests.findOne({_id: Session.get('current-id')}).avg_wait.three;
+   },
+   four: function(){
+     return Rests.findOne({_id: Session.get('current-id')}).avg_wait.four;
+   },
+   five: function(){
+     return Rests.findOne({_id: Session.get('current-id')}).avg_wait.five;
+   },
+   sixUp: function(){
+     return Rests.findOne({_id: Session.get('current-id')}).avg_wait.sixUp;
    }
 });
 

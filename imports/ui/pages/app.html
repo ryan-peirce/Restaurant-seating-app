@@ -3,7 +3,7 @@
   {{> appModal}}
   <div class="container">
     {{#each rest}}
-      <h2>Application Page: {{name}}, {{location}} </h2>
+      <h2>Application Page: {{name}}, {{location}}</h2>
     {{/each}}
     <div class="row">
       <div class="col-lg-6">
@@ -20,10 +20,25 @@
           <div class="col-lg-6">
             <button class="add-to-que" name="button">Add To List</button>
           </div>
-      </div>
+        </div>
         <div style="border: 1px solid black; width: 100%; max-height: 700px; overflow-y:auto;">
           {{> line}}
         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+      <br>
+        <h4>Wait Averages By Party Size:</h4>
+        <form class="waitAvg">
+          1: <input type="text" name="one" value={{one}}>
+          2: <input type="text" name="two" value={{two}}>
+          3: <input type="text" name="three" value={{three}}>
+          4: <input type="text" name="four" value={{four}}>
+          5: <input type="text" name="five" value={{five}}>
+          6 or more: <input type="text" name="sixUp" value={{sixUp}}><br>
+          <input class="btn" type="submit" value="Submit" style="margin: 0.25em;">
+        </form>
       </div>
     </div>
   </div>

@@ -49,15 +49,24 @@ Meteor.methods({
 	'editQue' (restId,que){
 		Rests.update(restId, {$set: {'que': que }});
 	},
-	'rests.tables.toggleStatus' (restId, table, status){
+	'rests.tables.toggleStatus' (restId, table, status, avgWait){
 		//alert(restId + ' ' + table + ' ' + status);
 		//var d = new Date();
 		//var n = d.getTime();
-		var remaining = (40);
+		var remaining = (avgWait);
 		if(status == 'open'){
 			remaining = 0;
 		}
 		Rests.update({'_id':restId, 'tables.name': table}, {$set: {'tables.$.status': status, 'tables.$.time': remaining}});
+	},
+	'updateAvgWait' (restId, one, two, three, four, five, sixUp){
+		one = parseInt(one);
+		two = parseInt(two);
+		three = parseInt(three);
+		four = parseInt(four);
+		five = parseInt(five);
+		sixUp = parseInt(sixUp);
+		Rests.update({'_id': restId}, {$set: {'avg_wait.one': one, 'avg_wait.two': two, 'avg_wait.three': three, 'avg_wait.four': four, 'avg_wait.five': five, 'avg_wait.sixUp': sixUp}})
 	},
 	'rests.tables.addTime' (restId, table, time){
 		var tables = Rests.findOne({'_id': restId}).tables;
@@ -113,11 +122,12 @@ Meteor.methods({
 				var tables = tablesArray.length;
 				var queArray = rest[j].que;
 				var queSize = queArray.length;
+				var avgWait = rest[j].avg_wait;
 
 				var tableOne = [], tableTwo = [], tableThree = [], tableFour = [], tableFive = [], tableSixUp = [];
 				var queOne = [], queTwo = [], queThree = [], queFour = [], queFive = [], queSixUp = [];
 
-				var tableOneAvg = 40,tableTwoAvg = 40,tableThreeAvg = 40,tableFourAvg = 40,tableFiveAvg = 40,tableSixAvg = 40;
+				var tableOneAvg = avgWait.one,tableTwoAvg = avgWait.two,tableThreeAvg = avgWait.three,tableFourAvg = avgWait.four,tableFiveAvg = avgWait.five,tableSixAvg = avgWait.sixUp;
 				var tableOneWait = 0,tableTwoWait = 0,tableThreeWait = 0,tableFourWait = 0,tableFiveWait = 0,tableSixWait = 0;
 
 				for(var i = 0; i < tables; i++){
