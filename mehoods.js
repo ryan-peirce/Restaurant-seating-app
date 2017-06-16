@@ -97,7 +97,7 @@ Meteor.methods({
 				var tables = tablesArray.length;
 				for(var i = 0; i < tables; i++){
 					if(tablesArray[i].time != 0){
-						tablesArray[i].time = tablesArray[i].time - 1;
+						tablesArray[i].time = checkNull(tablesArray[i].time - 1);
 					}
 					Rests.update({'_id':restId}, {$set: {'tables': tablesArray}});
 				}
@@ -272,7 +272,7 @@ calcWait = function(index, totalTables, avg, que){
 }
 
 checkNull = function(num){
-	if(num == null || num == 'undefined' || num == NaN || num == "NaN"){
+	if(num == null || num == 'undefined' || num == NaN || num == "NaN" || (Number.isInteger(num) == false) ){
 		return 0;
 	}
 	else{
