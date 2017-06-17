@@ -83,7 +83,8 @@
 			Add table: <form class="add-table">
 			Table name / number: <input type="text" name="tableName">
 			Number of seats: <input type="text" name="seatNum">
-			<input  class="btn " type="submit" value="Add Table"></form><br>
+			<input  class="btn " type="submit" value="Add Table"></form>
+			{{> avgWait}}
 
 	</div>
 </template>
@@ -124,4 +125,23 @@
 			<button class="rest-option" name="remove">Remove Resturant</button>
 		</div>
 	</li>
+</template>
+
+<template name="avgWait">
+  <div class="row" style="margin-top: 1em;">
+		<div class="col-lg-3">
+			<h4 style="margin-top: 15px;">Wait Averages By Party Size:</h4>
+		</div>
+		<div class="col-lg-9">
+    	<form class="waitAvg">
+      	1: <input type="text" name="one" value={{one}}>
+      	2: <input type="text" name="two" value={{two}}>
+      	3: <input type="text" name="three" value={{three}}>
+      	4: <input type="text" name="four" value={{four}}>
+      	5: <input type="text" name="five" value={{five}}>
+      	6 or more: <input type="text" name="sixUp" value={{sixUp}}>
+      	<input class="btn" type="submit" value="Submit" style="margin: 0.25em;">
+    	</form>
+		</div>
+  </div>
 </template>

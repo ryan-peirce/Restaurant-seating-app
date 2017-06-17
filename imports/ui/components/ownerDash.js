@@ -169,3 +169,32 @@ Template.editRest.events({
   		Meteor.call('rests.update', Session.get('current-id'), "kitchen_output" ,output);
     },
 });
+
+Template.avgWait.helpers({
+  one: function(){
+    return Rests.findOne({_id: Session.get('current-id')}).avg_wait.one;
+  },
+  two: function(){
+    return Rests.findOne({_id: Session.get('current-id')}).avg_wait.two;
+  },
+  three: function(){
+    return Rests.findOne({_id: Session.get('current-id')}).avg_wait.three;
+  },
+  four: function(){
+    return Rests.findOne({_id: Session.get('current-id')}).avg_wait.four;
+  },
+  five: function(){
+    return Rests.findOne({_id: Session.get('current-id')}).avg_wait.five;
+  },
+  sixUp: function(){
+    return Rests.findOne({_id: Session.get('current-id')}).avg_wait.sixUp;
+  }
+});
+
+Template.avgWait.events({
+  'submit .waitAvg': function(event){
+    event.preventDefault();
+    Meteor.call('updateAvgWait', Session.get('current-id'), event.target.one.value, event.target.two.value, event.target.three.value, event.target.four.value, event.target.five.value, event.target.sixUp.value);
+    alert("Averages Changed");
+  }
+});
