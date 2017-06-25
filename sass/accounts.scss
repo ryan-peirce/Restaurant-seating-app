@@ -10,6 +10,8 @@
     transform: translate3d(25%, -80%, 0) scale(0.5);
     background: #FFF;
     opacity: 0;
+    max-height: 619px;
+    overflow-y: scroll;
     @include trans();
     @include card(4);
     &.open {

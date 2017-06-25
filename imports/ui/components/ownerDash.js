@@ -46,16 +46,19 @@ Template.rest.events({
     'click .accordion': function(event){
 		Session.set('current-id',this._id);
     Session.set('current-name',this.name);
-		event.preventDefault();
+    event.preventDefault();
     $(".panel").css("maxHeight", "0px");
+    var act = event.target.classList.contains('active');
     $(".accordion").toggleClass('active',false);
-    event.target.classList.toggle("active");
-		var panel = event.target.nextElementSibling;
-		if (panel.style.maxHeight.localeCompare('0px') != 0){
-		  panel.style.maxHeight = "0px";
-		} else {
-		  panel.style.maxHeight = panel.scrollHeight + "px";
-		}
+    var panel = event.target.nextElementSibling;
+    if(act){
+      event.target.classList.toggle("active",false);
+      panel.style.maxHeight = "0px";
+    }
+    else{
+      event.target.classList.toggle("active",true);
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
     },
 	'click .rest-option': function(event){
 		event.preventDefault();
