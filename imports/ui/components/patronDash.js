@@ -6,7 +6,6 @@ Session.set('party','4');
 
 Template.patronDash.helpers({
   rests() {
-    // Show newest tasks at the top
 	if(Session.get('search').localeCompare('')==0){
 		return Rests.find({}, { sort: { createdAt: -1 } });
 	}
@@ -76,8 +75,15 @@ Template.rest2.helpers({
         case '6+':
           wait = this.waits.sixUp;
           break;
+        case '-1':
+         wait = '-1';
       }
-      obj.overall = 'Current wait time: ' + wait + ' mins';
+      if(wait == '-1'){
+        obj.overall = 'This resturant cannot seat your party';
+      }
+      else{
+        obj.overall = 'Current wait time: ' + wait + ' mins';
+      }
     }
     return obj;
   },

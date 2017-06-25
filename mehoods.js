@@ -160,27 +160,155 @@ Meteor.methods({
 					tableFive.sort(function(a, b){return a-b});
 					tableSixUp.sort(function(a, b){return a-b});
 
+					var tableOneExists = false, tableTwoExists = false, tableThreeExists = false, tableFourExists = false, tableFiveExists = false, tableSixExists = false;
+					var tableOneOpen = false, tableTwoOpen = false, tableThreeOpen = false, tableFourOpen = false, tableFiveOpen = false, tableSixOpen = false;
+
+					if(tableOne.length > 0){
+						tableOneExists = true;
+						if(tableOneExists){
+							if(tableOne[0] == 0){
+								tableOneOpen = true;
+							}
+						}
+					}
+
+					if(tableTwo.length > 0){
+						tableTwoExists = true;
+						if(tableTwoExists){
+							if(tableTwo[0] == 0){
+								tableTwoOpen = true;
+							}
+						}
+					}
+
+					if(tableThree.length > 0){
+						tableThreeExists = true;
+						if(tableThreeExists){
+							if(tableThree[0] == 0){
+								tableThreeOpen = true;
+							}
+						}
+					}
+
+					if(tableFour.length > 0){
+						tableFourExists = true;
+						if(tableFourExists){
+							if(tableFour[0] == 0){
+								tableFourOpen = true;
+							}
+						}
+					}
+
+					if(tableFive.length > 0){
+						tableFiveExists = true;
+						if(tableFiveExists){
+							if(tableFive[0] == 0){
+								tableFiveOpen = true;
+							}
+						}
+					}
+
+					if(tableSixUp.length > 0){
+						tableSixExists = true;
+						if(tableSixExists){
+							if(tableSixUp[0] == 0){
+								tableSixOpen = true;
+							}
+						}
+					}
+
+					var tableOneTotal = tableOne.length,tableTwoTotal = tableTwo.length,tableThreeTotal = tableThree.length,tableFourTotal =tableFour.length,tableFiveTotal = tableFive.length,tableSixTotal = tableSixUp.length;
+
 					for(var i = 0; i < queSize; i++){
+						var queOneSize = queOne.length, queTwoSize = queTwo.length, queThreeSize = queThree.length, queFourSize = queFour.length, queFiveSize = queFive.length, queSixSize = queSixUp.length;
+						//var smallestLine = [queOneSize, queTwoSize, queThreeSize, queFourSize, queFiveSize, queSixSize ];
+
 						switch(queArray[i].party){
 							case '1':
-								queOne.push(queArray[i]);
+								if(tableOneOpen && queOneSize == 0){
+									queOne.push(queArray[i]);
+								}
+								else if(tableTwoOpen && queTwoSize == 0){
+									queTwo.push(queArray[i]);
+								}
+								else if(tableThreeOpen && queThreeSize == 0){
+									queThree.push(queArray[i]);
+								}
+								else if(tableFourOpen && queFourSize == 0){
+									queFour.push(queArray[i]);
+								}
+								else{
+									queOne.push(queArray[i]);
+								}
 								break;
 							case '2':
-								queTwo.push(queArray[i]);
+								if(tableTwoOpen && queTwoSize == 0){
+									queTwo.push(queArray[i]);
+								}
+								else if(tableThreeOpen && queThreeSize == 0){
+									queThree.push(queArray[i]);
+								}
+								else if(tableFourOpen && queFourSize == 0){
+									queFour.push(queArray[i]);
+								}
+								else if(tableFiveOpen && queFiveSize == 0){
+									queFive.push(queArray[i]);
+								}
+								else{
+									queTwo.push(queArray[i]);
+								}
 								break;
 							case '3':
-								queThree.push(queArray[i]);
+								if(tableThreeOpen && queThreeSize == 0){
+									queThree.push(queArray[i]);
+								}
+								else if(tableFourOpen && queFourSize == 0){
+									queFour.push(queArray[i]);
+								}
+								else if(tableFiveOpen && queFiveSize == 0){
+									queFive.push(queArray[i]);
+								}
+								else if(tableSixOpen && queSixSize == 0){
+									queSixUp.push(queArray[i]);
+								}
+								else{
+									queThree.push(queArray[i]);
+								}
 								break;
 							case '4':
-								queFour.push(queArray[i]);
+								if(tableFourOpen && queFourSize == 0){
+									queFour.push(queArray[i]);
+								}
+								else if(tableFiveOpen && queFiveSize == 0){
+									queFive.push(queArray[i]);
+								}
+								else if(tableSixOpen && queSixSize == 0){
+									queSixUp.push(queArray[i]);
+								}
+								else{
+									queFour.push(queArray[i]);
+								}
 								break;
 							case '5':
-								queFive.push(queArray[i]);
+								if(tableFiveOpen && queFiveSize == 0){
+									queFive.push(queArray[i]);
+								}
+								else if(tableSixOpen && queSixSize == 0){
+									queSixUp.push(queArray[i]);
+								}
+								else{
+									queFive.push(queArray[i]);
+								}
 								break;
 							default:
-								queSixUp.push(queArray[i]);
+								if(tableSixOpen && queSixSize == 0){
+									queSixUp.push(queArray[i]);
+								}
+								else{
+									queSixUp.push(queArray[i]);
+								}
 								break;
-						}
+							}
 					}
 
 
@@ -204,8 +332,6 @@ Meteor.methods({
 					avg = tableFourAvg;
 					tableFourWait = calcWait(queFour.length, tableFour.length, tableFourAvg, tableFour);
 
-
-
 					index = queFive.length;
 					totalTables = tableFive.length;
 					avg = tableFiveAvg;
@@ -227,54 +353,519 @@ Meteor.methods({
 						sixUp: checkNull(tableSixWait)
 					};
 
+					var realOneWait = [], realTwoWait = [], realThreeWait = [], realFourWait = [], realFiveWait = [], realSixWait = [];
 
-					Rests.update({'_id':restId}, {$set: {'waits': waits}});
+					if(tableOneExists){
+						realOneWait.push(waits.one);
+					}
+					if(tableTwoExists){
+						realTwoWait.push(waits.two);
+						realOneWait.push(waits.two);
+					}
+					if(tableThreeExists){
+						realTwoWait.push(waits.three);
+						realThreeWait.push(waits.three);
+						realOneWait.push(waits.three);
+					}
+					if(tableFourExists){
+						realThreeWait.push(waits.four);
+						realTwoWait.push(waits.four);
+						realOneWait.push(waits.four);
+						realFourWait.push(waits.four);
+					}
+					if(tableFiveExists){
+						realThreeWait.push(waits.five);
+						realTwoWait.push(waits.five);
+						realFourWait.push(waits.five);
+						realFiveWait.push(waits.five);
+					}
+					if(tableSixExists){
+						realFiveWait.push(waits.sixUp);
+						realFourWait.push(waits.sixUp);
+						realThreeWait.push(waits.sixUp);
+						realSixWait.push(waits.sixUp);
+					}
 
+					realOneWait.sort(function(a, b){return a-b});
+					realTwoWait.sort(function(a, b){return a-b});
+					realThreeWait.sort(function(a, b){return a-b});
+					realFourWait.sort(function(a, b){return a-b});
+					realFiveWait.sort(function(a, b){return a-b});
+					realSixWait.sort(function(a, b){return a-b});
+
+
+
+					var i1 = 0, i2 = 0, i3 = 0, i4 = 0, i5 = 0, i6 = 0;
 					for(var i = 0; i < queSize; i++){
 						var party = queArray[i].party;
 						var thisWait = 0;
+						var min = -1;
+						var curMin = -1;
 						if(party == 1){
-							thisWait = calcWait( i, tableOne.length, tableOneAvg, tableOne);
+							if(tableTwoExists){
+								thisWait1 = calcWait( i2, tableTwo.length, tableTwoAvg, tableTwo);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 1;
+								}
+							}
+							if(tableThreeExists){
+								thisWait1 = calcWait( i3, tableThree.length, tableThreeAvg, tableThree);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 2;
+								}
+							}
+							if(tableFourExists){
+								thisWait1 = calcWait( i4, tableFour.length, tableFourAvg, tableFour);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 3;
+								}
+							}
+							if(tableOneExists){
+								thisWait1 = calcWait( i1, tableOne.length, tableOneAvg, tableOne);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 1;
+								}
+							}
+							switch(curMin){
+								case 1:
+									i1++;
+									thisWait = min;
+									break;
+								case 2:
+									i2++;
+									thisWait = min;
+									break;
+								case 3:
+									i3++;
+									thisWait = min;
+									break;
+								case 4:
+									i4++;
+									thisWait = min;
+									break;
+								case 5:
+									i5++;
+									thisWait = min;
+									break;
+								case 6:
+									i6++;
+									thisWait = min;
+									break;
+							}
 						}
 						else if(party == 2){
-							thisWait = calcWait( i, tableTwo.length, tableTwoAvg, tableTwo);
+							if(tableTwoExists){
+								thisWait1 = calcWait( i2, tableTwo.length, tableTwoAvg, tableTwo);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 2;
+								}
+							}
+							if(tableThreeExists){
+								thisWait1 = calcWait( i3, tableThree.length, tableThreeAvg, tableThree);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 3;
+								}
+							}
+							if(tableFourExists){
+								thisWait1 = calcWait( i4, tableFour.length, tableFourAvg, tableFour);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 4;
+								}
+							}
+							if(tableFiveExists){
+								thisWait1 = calcWait( i5, tableFive.length, tableFiveAvg, tableFive);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 5;
+								}
+							}
+							switch(curMin){
+								case 1:
+									i1++;
+									thisWait = min;
+									break;
+								case 2:
+									i2++;
+									thisWait = min;
+									break;
+								case 3:
+									i3++;
+									thisWait = min;
+									break;
+								case 4:
+									i4++;
+									thisWait = min;
+									break;
+								case 5:
+									i5++;
+									thisWait = min;
+									break;
+								case 6:
+									i6++;
+									thisWait = min;
+									break;
+							}
 						}
 						else if(party == 3){
-							thisWait = calcWait( i, tableThree.length, tableThreeAvg, tableThree);
+							if(tableThreeExists){
+								thisWait1 = calcWait( i3, tableThree.length, tableThreeAvg, tableThree);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 3;
+								}
+							}
+							if(tableFourExists){
+								thisWait1 = calcWait( i4, tableFour.length, tableFourAvg, tableFour);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 4;
+								}
+							}
+							if(tableFiveExists){
+								thisWait1 = calcWait( i5, tableFive.length, tableFiveAvg, tableFive);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 5;
+								}
+							}
+							if(tableSixExists){
+								thisWait1 = calcWait( i6, tableSixUp.length, tableSixAvg, tableSixUp);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 6;
+								}
+							}
+							switch(curMin){
+								case 1:
+									i1++;
+									thisWait = min;
+									break;
+								case 2:
+									i2++;
+									thisWait = min;
+									break;
+								case 3:
+									i3++;
+									thisWait = min;
+									break;
+								case 4:
+									i4++;
+									thisWait = min;
+									break;
+								case 5:
+									i5++;
+									thisWait = min;
+									break;
+								case 6:
+									i6++;
+									thisWait = min;
+									break;
+							}
 						}
 						else if(party == 4){
-							thisWait = calcWait( i, tableFour.length, tableFourAvg, tableFour);
-						}
-						else if(party == 5){
-							thisWait = calcWait( i, tableFive.length, tableFiveAvg, tableFive);
-						}
-						else{
-							thisWait = calcWait( i, tableSixUp.length, tableSixAvg, tableSixUp);
-						}
-
-						queArray[i].wait = thisWait;
-
-						var phoneNumber = queArray[i].phone;
-						var message = "Your reservation will be ready in 5 mins.";
-						if(thisWait <= 5 && queArray[i].warned != true){
-							console.log(phoneNumber,message);
-							queArray[i].warned = true;
-							if (queArray[i].contactSMS){
-								Meteor.call('sendSMS', phoneNumber, message);
+							if(tableFourExists){
+								thisWait1 = calcWait( i4, tableFour.length, tableFourAvg, tableFour);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 4;
+								}
 							}
-							if (queArray[i].contactEmail){
-								Meteor.call('sendEmail', queArray[i].email, message);
+							if(tableFiveExists){
+								thisWait1 = calcWait( i5, tableFive.length, tableFiveAvg, tableFive);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 5;
+								}
 							}
-						}
+							if(tableSixExists){
+								thisWait1 = calcWait( i6, tableSixUp.length, tableSixAvg, tableSixUp);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 6;
+								}
+							}
+							switch(curMin){
+								case 1:
+									i1++;
+									thisWait = min;
+									break;
+								case 2:
+									i2++;
+									thisWait = min;
+									break;
+								case 3:
+									i3++;
+									thisWait = min;
+									break;
+								case 4:
+									i4++;
+									thisWait = min;
+									break;
+								case 5:
+									i5++;
+									thisWait = min;
+									break;
+								case 6:
+									i6++;
+									thisWait = min;
+									break;
+							}
 
 					}
+						else if(party == 5){
+							if(tableFiveExists){
+								thisWait1 = calcWait( i5, tableFive.length, tableFiveAvg, tableFive);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 5;
+								}
+							}
+							if(tableSixExists){
+								thisWait1 = calcWait( i6, tableSixUp.length, tableSixAvg, tableSixUp);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 6;
+								}
+							}
+							switch(curMin){
+								case 1:
+									i1++;
+									thisWait = min;
+									break;
+								case 2:
+									i2++;
+									thisWait = min;
+									break;
+								case 3:
+									i3++;
+									thisWait = min;
+									break;
+								case 4:
+									i4++;
+									thisWait = min;
+									break;
+								case 5:
+									i5++;
+									thisWait = min;
+									break;
+								case 6:
+									i6++;
+									thisWait = min;
+									break;
+							}
 
-					Meteor.call('editQue', restId, queArray);
+					}
+						else{
+							if(tableSixExists){
+								thisWait1 = calcWait( i6, tableSixUp.length, tableSixAvg, tableSixUp);
+								if(min == -1 || thisWait1 < min){
+									min = thisWait1
+									curMin = 6;
+								}
+							}
+							switch(curMin){
+								case 1:
+									i1++;
+									thisWait = min;
+									break;
+								case 2:
+									i2++;
+									thisWait = min;
+									break;
+								case 3:
+									i3++;
+									thisWait = min;
+									break;
+								case 4:
+									i4++;
+									thisWait = min;
+									break;
+								case 5:
+									i5++;
+									thisWait = min;
+									break;
+								case 6:
+									i6++;
+									thisWait = min;
+									break;
+							}
+
+					}
+					queArray[i].wait = thisWait;
+
+					var phoneNumber = queArray[i].phone;
+					var message = "Your reservation will be ready in 5 mins.";
+					if(thisWait <= 5 && queArray[i].warned != true){
+						console.log(phoneNumber,message);
+						queArray[i].warned = true;
+						if (queArray[i].contactSMS){
+							Meteor.call('sendSMS', phoneNumber, message);
+						}
+						if (queArray[i].contactEmail){
+							Meteor.call('sendEmail', queArray[i].email, message);
+						}
+					}
 
 
 
+				Meteor.call('editQue', restId, queArray);
 				}
-			}
+					var min = -1;
+					function lastOne(){
+						min = -1;
+						if(tableTwoExists){
+							thisWait1 = calcWait( i2, tableTwo.length, tableTwoAvg, tableTwo);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						if(tableThreeExists){
+							thisWait1 = calcWait( i3, tableThree.length, tableThreeAvg, tableThree);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						if(tableFourExists){
+							thisWait1 = calcWait( i4, tableFour.length, tableFourAvg, tableFour);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						if(tableOneExists){
+							thisWait1 = calcWait( i1, tableOne.length, tableOneAvg, tableOne);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						return min;
+					}
+					function lastTwo(){
+						min = -1;
+						if(tableTwoExists){
+							thisWait1 = calcWait( i2, tableTwo.length, tableTwoAvg, tableTwo);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						if(tableThreeExists){
+							thisWait1 = calcWait( i3, tableThree.length, tableThreeAvg, tableThree);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						if(tableFourExists){
+							thisWait1 = calcWait( i4, tableFour.length, tableFourAvg, tableFour);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						if(tableFiveExists){
+							thisWait1 = calcWait( i5, tableFive.length, tableFiveAvg, tableFive);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						return min;
+					}
+					function lastThree(){
+						min = -1;
+						if(tableThreeExists){
+							thisWait1 = calcWait( i3, tableThree.length, tableThreeAvg, tableThree);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						if(tableFourExists){
+							thisWait1 = calcWait( i4, tableFour.length, tableFourAvg, tableFour);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						if(tableFiveExists){
+							thisWait1 = calcWait( i5, tableFive.length, tableFiveAvg, tableFive);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						if(tableSixExists){
+							thisWait1 = calcWait( i6, tableSixUp.length, tableSixAvg, tableSixUp);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						return min
+					}
+					function lastFour(){
+						min = -1;
+						if(tableFourExists){
+							thisWait1 = calcWait( i4, tableFour.length, tableFourAvg, tableFour);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						if(tableFiveExists){
+							thisWait1 = calcWait( i5, tableFive.length, tableFiveAvg, tableFive);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						if(tableSixExists){
+							thisWait1 = calcWait( i6, tableSixUp.length, tableSixAvg, tableSixUp);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						return min;
+				}
+					function lastFive(){
+						min = -1;
+						if(tableFiveExists){
+							thisWait1 = calcWait( i5, tableFive.length, tableFiveAvg, tableFive);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						if(tableSixExists){
+							thisWait1 = calcWait( i6, tableSixUp.length, tableSixAvg, tableSixUp);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						return min
+				}
+					function lastSix(){
+						min = -1;
+						if(tableSixExists){
+							thisWait1 = calcWait( i6, tableSixUp.length, tableSixAvg, tableSixUp);
+							if(min == -1 || thisWait1 < min){
+								min = thisWait1;
+							}
+						}
+						return min
+				}
+
+				waits.one = lastOne();
+				waits.two = lastTwo();
+				waits.three = lastThree();
+				waits.four = lastFour();
+				waits.five = lastFive();
+				waits.sixUp = lastSix();
+
+				Rests.update({'_id':restId}, {$set: {'waits': waits}});
+
+
+
+
+
+			}}
+
 });
 
 calcWait = function(index, totalTables, avg, que){
